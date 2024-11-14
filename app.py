@@ -30,8 +30,64 @@ def reduce_image(file_name, accuracy, output_path):
     compressed_image_uint8 = img_as_ubyte(compressed_image_normalized)
     io.imsave(output_path, compressed_image_uint8)
 
-st.title("🎨 Image Compression using PCA")
-st.markdown("Upload your image, select compression accuracy, and download the compressed image.")
+# Inject custom CSS for styling
+st.markdown(
+    """
+    <style>
+        body {
+            background: linear-gradient(-45deg, #d3d3d3, #ffffff, #a9a9a9, #f5f5f5);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            font-family: 'Arial', sans-serif;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff4d4d;
+            text-shadow: 0 0 10px #ff4d4d, 0 0 20px #ff1a1a;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 2rem;
+        }
+
+        .neon-button {
+            background: linear-gradient(145deg, #ff4d4d, #ff1a1a);
+            color: white;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-shadow: 0 0 5px white;
+            transition: all 0.3s ease;
+            box-shadow: 0px 8px 0px #b30000;
+        }
+
+        .neon-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 15px 20px #ff1a1a;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+# Title and Description
+st.markdown('<div class="title">🎨 Image Compression with PCA</div>', unsafe_allow_html=True)
+st.markdown('<div class="description">Upload an image, select compression accuracy, and download the compressed image!</div>', unsafe_allow_html=True)
 
 # File uploader widget
 uploaded_file = st.file_uploader("Choose an Image File", type=["png", "jpg", "jpeg"])
@@ -47,7 +103,7 @@ if uploaded_file is not None:
 
     # Define compressed file path
     compressed_filename = f"compressed_{uploaded_file.name}"
-    compressed_path = os.path.join(COMPRESSED_FOLDER, compressed_filename)
+    compressed_path = os.path.join(COMPLEssED_FOLDER, compressed_filename)
 
     # Compress the image
     reduce_image(image_path, accuracy, compressed_path)
@@ -56,11 +112,14 @@ if uploaded_file is not None:
     # Display the compressed image
     st.image(compressed_path, caption="Compressed Image", use_column_width=True)
 
-    # Provide a download link for the compressed image
+    # Provide a download button for the compressed image
     with open(compressed_path, "rb") as file:
-        btn = st.download_button(
-            label="📥 Download Compressed Image",
-            data=file,
-            file_name=compressed_filename,
-            mime="image/jpeg",
+        st.markdown(
+            f"""
+            <a href="data:file/jpeg;base64,{file.read().decode('latin1')}" download="{compressed_filename}">
+                <button class="neon-button">📥 Download Compressed Image</button>
+            </a>
+            """,
+            unsafe_allow_html=True,
         )
+
