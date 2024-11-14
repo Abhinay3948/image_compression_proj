@@ -1,4 +1,6 @@
+streamlit
 Flask
 scikit-image
 numpy
 pandas
+scikit-learn
