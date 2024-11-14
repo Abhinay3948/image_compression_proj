@@ -86,8 +86,8 @@ st.markdown(
 )
 
 # Title and Description
-st.markdown('<div class="title">🎨 Image Compression with PCA</div>', unsafe_allow_html=True)
-st.markdown('<div class="description">Upload an image, select compression accuracy, and download the compressed image!</div>', unsafe_allow_html=True)
+st.markdown('<div class="title"> Image Compression </div>', unsafe_allow_html=True)
+st.markdown('<div class="description">Upload an image</div>', unsafe_allow_html=True)
 
 # File uploader widget
 uploaded_file = st.file_uploader("Choose an Image File", type=["png", "jpg", "jpeg"])
